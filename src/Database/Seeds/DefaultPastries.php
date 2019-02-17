@@ -1,40 +1,20 @@
 <?php
 
-namespace UserFrosting\Sprinkle\Pastries\Database\Migrations\v100;
+namespace UserFrosting\Sprinkle\Pastries\Database\Seeds;
 
-use UserFrosting\System\Bakery\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
+use UserFrosting\Sprinkle\Core\Database\Seeder\BaseSeed;
 use UserFrosting\Sprinkle\Pastries\Database\Models\Pastries;
 
-class DefaultPastries extends Migration
+class DefaultPastries extends BaseSeed
 {
     /**
      * {@inheritDoc}
      */
-    public $dependencies = [
-        '\UserFrosting\Sprinkle\Pastries\Database\Migrations\V100\PastriesTable'
-    ];
-
-    /**
-     * {@inheritDoc}
-     */
-    public function up()
+    public function run()
     {
         foreach ($this->pastries() as $pastry) {
             $pastry = new Pastries($pastry);
             $pastry->save();
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function down()
-    {
-        foreach ($this->pastries() as $pastry) {
-            $pastry = Pastries::where($pastry)->first();
-            $pastry->delete();
         }
     }
 

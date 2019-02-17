@@ -1,42 +1,25 @@
 <?php
 
-namespace UserFrosting\Sprinkle\Pastries\Database\Migrations\v100;
+namespace UserFrosting\Sprinkle\Pastries\Database\Seeds;
 
-use UserFrosting\System\Bakery\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
+use UserFrosting\Sprinkle\Core\Database\Seeder\BaseSeed;
 use UserFrosting\Sprinkle\Account\Database\Models\Permission;
-use UserFrosting\Sprinkle\Account\Database\Models\Role;
 
-class PastriesPermissions extends Migration
+class PastriesPermissions extends BaseSeed
 {
     /**
      * {@inheritDoc}
      */
-    public $dependencies = [
-        '\UserFrosting\Sprinkle\Account\Database\Migrations\v400\RolesTable',
-        '\UserFrosting\Sprinkle\Account\Database\Migrations\v400\PermissionsTable'
-    ];
-
-    /**
-     * {@inheritDoc}
-     */
-    public function up()
+    public function run()
     {
+        $this->validateMigrationDependencies([
+            '\UserFrosting\Sprinkle\Account\Database\Migrations\v400\RolesTable',
+            '\UserFrosting\Sprinkle\Account\Database\Migrations\v400\PermissionsTable'
+        ]);
+
         foreach ($this->pastryPermissions() as $permissionInfo) {
             $permission = new Permission($permissionInfo);
             $permission->save();
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function down()
-    {
-        foreach ($this->pastryPermissions() as $permissionInfo) {
-            $permission = Permission::where($permissionInfo)->first();
-            $permission->delete();
         }
     }
 

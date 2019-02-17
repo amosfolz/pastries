@@ -4,7 +4,7 @@ namespace UserFrosting\Sprinkle\Pastries\Database\Migrations\v100;
 
 use UserFrosting\System\Bakery\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
+use UserFrosting\Sprinkle\Core\Facades\Seeder;
 
 class PastriesTable extends Migration
 {
@@ -24,6 +24,8 @@ class PastriesTable extends Migration
             $table->collation = 'utf8_unicode_ci';
             $table->charset = 'utf8';
         });
+
+        Seeder::execute('DefaultPastries');
     }
 
     /**
