@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * UserFrosting (http://www.userfrosting.com)
+ *
+ * @link      https://github.com/userfrosting/UserFrosting
+ * @copyright Copyright (c) 2019 Alexander Weissman
+ * @license   https://github.com/userfrosting/UserFrosting/blob/master/LICENSE.md (MIT License)
+ */
+
 namespace UserFrosting\Sprinkle\Pastries\Database\Migrations\v100;
 
 use UserFrosting\Sprinkle\Pastries\Database\Models\Pastries;
@@ -31,8 +39,10 @@ class DefaultPastries extends Migration
     public function down()
     {
         foreach ($this->pastries() as $pastry) {
-            $pastry = Pastries::where($pastry)->first();
-            $pastry->delete();
+            if (Pastries::where($pastry)->first()) {
+                $pastry = Pastries::where($pastry)->first();
+                $pastry->delete();
+            }
         }
     }
 
